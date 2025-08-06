@@ -3,7 +3,6 @@ import sqlite3
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 from binance.client import Client
-from binance.enums import *
 
 app = Flask(__name__)
 
@@ -11,7 +10,8 @@ app = Flask(__name__)
 API_KEY = os.getenv("BINANCE_API_KEY")
 API_SECRET = os.getenv("BINANCE_API_SECRET")
 
-client = Client(API_KEY, API_SECRET)
+# Use the Binance.US base URL
+client = Client(API_KEY, API_SECRET, base_url='https://api.binance.us')
 
 # Initialize SQLite DB
 DB_FILE = "trades.db"
@@ -52,7 +52,7 @@ def log_trade(data):
 
 @app.route("/")
 def index():
-    return "Bot is running."
+    return "Bot is running (Binance.US)"
 
 @app.route("/dashboard")
 def dashboard():
@@ -79,22 +79,13 @@ def webhook():
         tp_price = float(data.get("tp_price", 0))
 
         if action == "BUY":
-            order = client.order_market_buy(symbol=symbol, quantity=qty)
-            oco = client.create_oco_order(
-                symbol=symbol,
-                side=SIDE_SELL,
-                quantity=qty,
-                price=round(tp_price, 2),
-                stopPrice=round(sl_price * 1.01, 2),
-                stopLimitPrice=round(sl_price, 2),
-                stopLimitTimeInForce=TIME_IN_FORCE_GTC
-            )
+            order = client.new_order(symbol=symbol, side="BUY", type="MARKET", quantity=qty)
             response = {"status": "success"}
             data["status"] = "success"
             data["error"] = ""
 
         elif action == "SELL":
-            order = client.order_market_sell(symbol=symbol, quantity=qty)
+            order = client.new_order(symbol=symbol, side="SELL", type="MARKET", quantity=qty)
             response = {"status": "success"}
             data["status"] = "success"
             data["error"] = ""
