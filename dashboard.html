@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trading Bot Dashboard</title>
+    <meta http-equiv="refresh" content="60">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .success { background-color: #e0f9e0; }
+        .error { background-color: #f9e0e0; }
+    </style>
+</head>
+<body>
+    <h1>Trading Bot Dashboard</h1>
+    <p>Auto-refreshing every 60 seconds.</p>
+    <table>
+        <tr>
+            <th>Time</th><th>Action</th><th>Symbol</th><th>Qty</th><th>Entry</th><th>SL</th><th>TP</th><th>Status</th>
+        </tr>
+        {% for t in trades %}
+        <tr class="{{ 'success' if t[8]=='success' else 'error' }}">
+            <td>{{ t[7][:19].replace('T',' ') }}</td>
+            <td>{{ t[1] }}</td>
+            <td>{{ t[2] }}</td>
+            <td>{{ t[3] }}</td>
+            <td>{{ t[4] }}</td>
+            <td>{{ t[5] }}</td>
+            <td>{{ t[6] }}</td>
+            <td>{{ t[8] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
