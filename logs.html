@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Error Logs</title>
     <meta http-equiv="refresh" content="60">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table { width: 100%%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
-        th { background-color: #f4f4f4; }
+        body { font-family: Arial, sans-serif; padding: 2em; background: #fdf5f5; }
+        table { border-collapse: collapse; width: 100%; background: #fff; }
+        th, td { padding: 12px; border: 1px solid #ccc; text-align: left; }
+        th { background: #800; color: white; }
+        tr:nth-child(even) { background: #ffeaea; }
+        h1 { color: #800; }
     </style>
 </head>
 <body>
     <h1>Bot Error Logs</h1>
-    <p>Auto-refreshing every 60 seconds.</p>
     <table>
         <tr>
-            <th>Time</th><th>Action</th><th>Symbol</th><th>Status</th><th>Error</th>
+            <th>Time</th>
+            <th>Action</th>
+            <th>Symbol</th>
+            <th>Status</th>
+            <th>Error</th>
         </tr>
         {% for log in logs %}
         <tr>
-            <td>{{ log[0][:19].replace('T',' ') }}</td>
+            <td>{{ log[0] }}</td>
             <td>{{ log[1] }}</td>
             <td>{{ log[2] }}</td>
             <td>{{ log[3] }}</td>
