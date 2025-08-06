@@ -2,7 +2,7 @@ import os
 import sqlite3
 from flask import Flask, request, jsonify, render_template
 from datetime import datetime
-from binance.client import Client
+from binance.spot import Spot  # ✅ correct import
 
 app = Flask(__name__)
 
@@ -10,8 +10,9 @@ app = Flask(__name__)
 API_KEY = os.getenv("BINANCE_API_KEY")
 API_SECRET = os.getenv("BINANCE_API_SECRET")
 
-# Use the Binance.US base URL
-client = Client(API_KEY, API_SECRET, base_url='https://api.binance.us')
+# ✅ correct Spot client for Binance.US
+client = Spot(api_key=API_KEY, api_secret=API_SECRET, base_url='https://api.binance.us')
+
 
 # Initialize SQLite DB
 DB_FILE = "trades.db"
